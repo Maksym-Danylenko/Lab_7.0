@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Платіжна форма</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            max-width: 1200px;
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            align-items: flex-start;
+        }
+
+        .image-container {
+            flex: 0 0 auto;
+            width: 705px;
+            height: 900px;
+            margin-right: 40px;
+            position: static;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            object-fit: cover;
+        }
+
+        .payment-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 381px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 306px;
+            left: 832px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            color: #333;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        .form-control.invalid {
+            border-color: #dc3545;
+        }
+
+        .date-cvc-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .date-input-group {
+            flex-grow: 1;
+        }
+
+        .date-input {
+            width: calc(50% - 15px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            color: #333;
+            box-sizing: border-box;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+
+        .date-input::placeholder {
+            color: #999;
+        }
+
+        .date-input.invalid {
+            border-color: #dc3545;
+        }
+
+        .cvc-input-group {
+            width: 100px;
+        }
+
+        #cvc {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            color: #333;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        #cvc.invalid {
+            border-color: #dc3545;
+        }
+
+        .confirm-button {
+            background-color: #30193d;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease;
+        }
+
+        .confirm-button:hover {
+            background-color: #4a305a;
+        }
+
+        .confirm-button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+
+        .blue-container {
+            display: none;
+            width: 381px;
+            height: auto;
+            flex-shrink: 0;
+            background-color: #f0f0f0;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            top: 306px;
+            left: 832px;
+            padding-top: 20px;
+            border-radius: 8px;
+        }
+
+        .checkmark-container {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            margin-bottom: 20px;
+            padding-left: 144px;
+        }
+
+        .thank-you-text {
+            color: #21092F;
+            text-align: center;
+            font-feature-settings: 'liga' off, 'clig' off;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 28px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            letter-spacing: 3.422px;
+            width: 381px;
+            margin-bottom: 16px;
+        }
+
+        .card-details-text {
+            color: #8F8694;
+            text-align: center;
+            font-feature-settings: 'liga' off, 'clig' off;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            width: 381px;
+            height: 53px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            background: #ffffff;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .continue-button {
+            color: #FFF;
+            font-feature-settings: 'liga' off, 'clig' off;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            width: 381px;
+            height: 53px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            background: #21092F;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 992px) {
+            .main-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .payment-form {
+                margin-left: 0;
+                margin-top: 20px;
+                width: 90%;
+                max-width: 400px;
+            }
+            .image-container {
+                width: 90%;
+                text-align: center;
+                max-width: none;
+            }
+            .image-container img {
+                width: 100%;
+                height: auto;
+                object-fit: unset;
+            }
+            .blue-container {
+                width: 90%;
+                max-width: 400px;
+                position: static;
+                margin-top: 20px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .main-container {
+                justify-content: flex-start;
+            }
+            .payment-form {
+                margin-left: 50px;
+            }
+            .blue-container {
+                left: 832px;
+                top: 306px;
+            }
+        }
+        /* Імпортуємо Space Grotesk */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap');
+
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="image-container">
+            <img src="images\Group.png" alt="Зображення">
+        </div>
+        <div class="payment-form">
+            <div class="form-group">
+                <label for="cardholder-name">CARDHOLDER NAME</label>
+                <input type="text" id="cardholder-name" class="form-control" placeholder="e.g. Jane Appleseed">
+            </div>
+
+            <div class="form-group">
+                <label for="card-number">CARD NUMBER</label>
+                <input type="text" id="card-number" class="form-control" placeholder="e.g. 1234 5678 9123 0000">
+            </div>
+
+            <div class="form-group date-cvc-group">
+                <div class="date-input-group">
+                    <label for="exp-date">EXP. DATE (MM/YY)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="exp-date-mm" class="date-input" placeholder="MM" maxlength="2">
+                        <input type="text" id="exp-date-yy" class="date-input" placeholder="YYYY" maxlength="4">
+                    </div>
+                </div>
+                <div class="cvc-input-group">
+                    <label for="cvc">CVC</label>
+                    <input type="text" id="cvc" class="form-control" placeholder="e.g. 123" maxlength="4">
+                </div>
+            </div>
+
+            <button type="submit" class="confirm-button" disabled>Confirm</button>
+            <p style="font-size: 12px; color: #666; margin-top: 10px;">This is a test payment form. No real transactions are processed.</p>        </div>
+
+        <div class="blue-container">
+            <div class="checkmark-container">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+                    <circle cx="40" cy="40" r="40" fill="url(#paint0_linear_69_320)"/>
+                    <path d="M28 39.9199L36.0801 48L52.0801 32" stroke="white" stroke-width="3"/>
+                    <defs>
+                        <linearGradient id="paint0_linear_69_320" x1="-23.0143" y1="11.5071" x2="1.03143e-06" y2="91.5071" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#6348FE"/>
+                            <stop offset="1" stop-color="#610595"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <p class="thank-you-text">THANK YOU!</p>
+            <p class="card-details-text">We've added your card details</p>
+            <button class="continue-button">Continue</button>
+            <p style="font-size: 12px; color: #666; margin-top: 10px;">This is a test confirmation.</p>        </div>
+    </div>
+
+    <script>
+        const form = document.querySelector('.payment-form');
+        const cardholderNameInput = document.getElementById('cardholder-name');
+        const cardNumberInput = document.getElementById('card-number');
+        const expDateMMInput = document.getElementById('exp-date-mm');
+        const expDateYYInput = document.getElementById('exp-date-yy');
+        const cvcInput = document.getElementById('cvc');
+        const confirmButton = document.querySelector('.confirm-button');
+        const blueContainer = document.querySelector('.blue-container');
+
+        let displayedCardNumberElement = null;
+        let cardholderNameDisplayElement = null;
+        let cardDateDisplayElement = null;
+        let cardCVCDisplayElement = null;
+
+        function validateCardNumber(number) {
+            return /^\d{4} \d{4} \d{4} \d{4}$/.test(number);
+        }
+
+        function validateDate(mm, yy) {
+            if (!mm || !yy) return false;
+            const month = parseInt(mm, 10);
+            const year = yy;
+            const today = new Date();
+            const currentYear = today.getFullYear();
+
+            if (yy.length !== 4) {
+                return false;
+            }
+           return true;
+        }
+
+        function validateCVC(cvc) {
+            return /^\d{3,4}$/.test(cvc);
+        }
+
+        function validateForm() {
+            const isNameValid = cardholderNameInput.value.trim() !== '';
+            const isNumberValid = validateCardNumber(cardNumberInput.value);
+            const isDateValid = validateDate(expDateMMInput.value, expDateYYInput.value);
+            const isCVCValid = validateCVC(cvcInput.value);
+
+            cardholderNameInput.classList.toggle('invalid', !isNameValid);
+            cardNumberInput.classList.toggle('invalid', !isNumberValid);
+            expDateMMInput.classList.toggle('invalid', !isDateValid);
+            expDateYYInput.classList.toggle('invalid', !isDateValid);
+            cvcInput.classList.toggle('invalid', !isCVCValid);
+
+            confirmButton.disabled = !(isNameValid && isNumberValid && isDateValid && isCVCValid);
+            confirmButton.classList.toggle('disabled', !confirmButton.disabled);
+        }
+
+        cardholderNameInput.addEventListener('input', () => {
+            validateForm();
+            updateCardNumberDisplay();
+            updateCardholderNameDisplay();
+            updateCardDateDisplay();
+            updateCardCVCDisplay();
+        });
+        cardNumberInput.addEventListener('input', () => {
+            validateForm();
+            updateCardNumberDisplay();
+            updateCardDateDisplay();
+            updateCardCVCDisplay();
+        });
+        expDateMMInput.addEventListener('input', () => {
+            expDateMMInput.value = expDateMMInput.value.slice(0, 2);
+            validateForm();
+            updateCardDateDisplay();
+            updateCardCVCDisplay();
+        });
+
+        expDateYYInput.addEventListener('input', () => {
+            expDateYYInput.value = expDateYYInput.value.slice(0, 4);
+            validateForm();
+            updateCardDateDisplay();
+            updateCardCVCDisplay();
+        });
+        cvcInput.addEventListener('input', () => {
+            cvcInput.value = cvcInput.value.slice(0, 4);
+            validateForm();
+            updateCardCVCDisplay();
+        });
+
+        function updateCardNumberDisplay() {
+            const cardNumberValue = cardNumberInput.value;
+            const textToDisplay = cardNumberValue ? cardNumberValue : '0000 0000 0000 0000';
+
+            if (!displayedCardNumberElement) {
+                displayedCardNumberElement = document.createElement('p');
+                displayedCardNumberElement.style.position = 'absolute';
+                displayedCardNumberElement.style.top = '326px';
+                displayedCardNumberElement.style.left = '200px';
+                displayedCardNumberElement.style.color = '#FFF';
+                displayedCardNumberElement.style.fontFeatureSettings = '"liga" off, "clig" off';
+                displayedCardNumberElement.style.fontFamily = "Space Grotesk";
+                displayedCardNumberElement.style.fontSize = '28px';
+                displayedCardNumberElement.style.fontStyle = 'normal';
+                displayedCardNumberElement.style.fontWeight = '500';
+                displayedCardNumberElement.style.lineHeight = 'normal';
+                displayedCardNumberElement.style.letterSpacing = '3.422px';
+                document.body.appendChild(displayedCardNumberElement);
+            }
+            displayedCardNumberElement.textContent = textToDisplay;
+        }
+
+        function updateCardholderNameDisplay() {
+            const cardholderNameValue = cardholderNameInput.value;
+            const textToDisplay = cardholderNameValue ? cardholderNameValue : 'Felicia Leire';
+
+            if (!cardholderNameDisplayElement) {
+                cardholderNameDisplayElement = document.createElement('p');
+                cardholderNameDisplayElement.style.position = 'absolute';
+                cardholderNameDisplayElement.style.top = '387.5px';
+                cardholderNameDisplayElement.style.left = '196px';
+                cardholderNameDisplayElement.style.color = '#FFF';
+                cardholderNameDisplayElement.style.fontFeatureSettings = '"liga" off, "clig" off';
+                cardholderNameDisplayElement.style.fontFamily = "Space Grotesk";
+                cardholderNameDisplayElement.style.fontSize = '14px';
+                cardholderNameDisplayElement.style.fontStyle = 'normal';
+                cardholderNameDisplayElement.style.fontWeight = '500';
+                cardholderNameDisplayElement.style.lineHeight = 'normal';
+                cardholderNameDisplayElement.style.letterSpacing = '2px';
+                cardholderNameDisplayElement.style.textTransform = 'uppercase';
+                document.body.appendChild(cardholderNameDisplayElement);
+            }
+            cardholderNameDisplayElement.textContent = textToDisplay;
+        }
+
+        function updateCardDateDisplay() {
+            const expDateMMValue = expDateMMInput.value;
+            const expDateYYValue = expDateYYInput.value;
+            const textToDisplay = (expDateMMValue || expDateYYValue) ? `${expDateMMValue || '00'}/${expDateYYValue || '0000'}` : '00/00';
+
+            if (!cardDateDisplayElement) {
+                cardDateDisplayElement = document.createElement('p');
+                cardDateDisplayElement.style.position = 'absolute';
+                cardDateDisplayElement.style.top = '387.5px';
+                cardDateDisplayElement.style.left = '530px';
+                cardDateDisplayElement.style.color = '#FFF';
+                cardDateDisplayElement.style.textAlign = 'right';
+                cardDateDisplayElement.style.fontFeatureSettings = '"liga" off, "clig" off';
+                cardDateDisplayElement.style.fontFamily = "Space Grotesk";
+                cardDateDisplayElement.style.fontSize = '14px';
+                cardDateDisplayElement.style.fontStyle = 'normal';
+                cardDateDisplayElement.style.fontWeight = '500';
+                cardDateDisplayElement.style.lineHeight = 'normal';
+                cardDateDisplayElement.style.letterSpacing = '2px';
+                cardDateDisplayElement.style.textTransform = 'uppercase';
+                document.body.appendChild(cardDateDisplayElement);
+            }
+            cardDateDisplayElement.textContent = textToDisplay;
+        }
+
+        function updateCardCVCDisplay() {
+            const cvcValue = cvcInput.value;
+            const textToDisplay = cvcValue ? cvcValue : '000';
+
+            if (!cardCVCDisplayElement) {
+                cardCVCDisplayElement = document.createElement('p');
+                cardCVCDisplayElement.style.position = 'absolute';
+                cardCVCDisplayElement.style.top = '570px';
+                cardCVCDisplayElement.style.left = '616px';
+                cardCVCDisplayElement.style.color = '#FFF';
+                cardCVCDisplayElement.style.textAlign = 'right';
+                cardCVCDisplayElement.style.fontFeatureSettings = '"liga" off, "clig" off';
+                cardCVCDisplayElement.style.fontFamily = "Space Grotesk";
+                cardCVCDisplayElement.style.fontSize = '14px';
+                cardCVCDisplayElement.style.fontStyle = 'normal';
+                cardCVCDisplayElement.style.fontWeight = '500';
+                cardCVCDisplayElement.style.lineHeight = 'normal';
+                cardCVCDisplayElement.style.letterSpacing = '2px';
+                cardCVCDisplayElement.style.textTransform = 'uppercase';
+                document.body.appendChild(cardCVCDisplayElement);
+            }
+            cardCVCDisplayElement.textContent = textToDisplay;
+        }
+
+        confirmButton.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            validateForm();
+
+            if (confirmButton.disabled) {
+                alert('Будь ласка, заповніть всі поля правильно.');
+                return;
+            }
+
+            form.style.display = 'none';
+            blueContainer.style.display = 'block';
+            updateCardNumberDisplay();
+            updateCardholderNameDisplay();
+            updateCardDateDisplay();
+            updateCardCVCDisplay();
+        });
+
+        updateCardNumberDisplay();
+        updateCardholderNameDisplay();
+        updateCardDateDisplay();
+        updateCardCVCDisplay();
+    </script>
+</body>
+</html>
